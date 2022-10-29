@@ -1,18 +1,15 @@
-using System.Diagnostics;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Character : MonoBehaviour
 {   
-    float speed, jumpHeight, ver, hor;
     Rigidbody rb;
     Animator anim;  
+    BoxCollider rightFist, leftFist, rightFoot;
+    float speed, jumpHeight, ver, hor;
     public float health = 100f;
     public float timer = 3f;
     int clicks = 0; 
     public float hitDamage = 10f;
-    BoxCollider rightFist, leftFist, rightFoot;
     
     // Start is called before the first frame update
     void Start()
@@ -20,7 +17,7 @@ public class Character : MonoBehaviour
         leftFist = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetComponent<BoxCollider>();
         rightFist = gameObject.transform.GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetComponent<BoxCollider>();
         rightFoot = gameObject.transform.GetChild(1).GetChild(0).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<BoxCollider>();
-        //clicks = anim.GetInteger("Attack");
+        
         speed = 5f;
         jumpHeight = 5f;
         rb = GetComponent<Rigidbody>();
@@ -30,6 +27,8 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+    
+
         if(!anim.GetBool("IsDying")){
             movePlayerRelativeToCamera();    
             isWalking();

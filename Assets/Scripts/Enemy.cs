@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
     }
 
     void moveToPlayer(){
-        transform.position = Vector3.Slerp(transform.position,objective.transform.position, speed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position,objective.transform.position, speed * Time.deltaTime);
         return;
     }
 
