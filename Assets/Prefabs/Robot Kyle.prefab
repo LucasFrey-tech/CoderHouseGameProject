@@ -1600,6 +1600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10da637d8f500624e8e11e4e2b72a23c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: -7315426161119709960}
   health: 100
   timer: 3
   hitDamage: 10
