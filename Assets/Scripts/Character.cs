@@ -3,7 +3,7 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {   
     Rigidbody rb;
-    Animator anim;  
+    public Animator anim;  
     BoxCollider rightFist, leftFist, rightFoot;
     float speed, jumpHeight, ver, hor;
     public float health = 100f;
@@ -50,6 +50,9 @@ public class Character : MonoBehaviour
     void OnCollisionExit(Collision player){
         if(player.transform.gameObject.tag == "Floor"){
             anim.SetBool("Grounded", false);
+        }
+        if(player.transform.gameObject.name == "WinSpot"){
+            anim.SetBool("Win", true);
         }
 
     }

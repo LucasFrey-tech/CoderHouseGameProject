@@ -27,6 +27,7 @@ public class PlayerSpawn : MonoBehaviour
 
     void spawnPlayer(){
         currentPlayer = Instantiate(playerPrefab);
+        currentPlayer.GetComponent<Character>().anim.SetBool("Win", false);
         currentPlayer.transform.position = gameObject.transform.position;
         return;
     }
