@@ -44,6 +44,7 @@ public class EnemySpawn : MonoBehaviour
     void spawnEnemy(){
         currentEnemy = Instantiate(enemyPrefab);
         currentEnemy.transform.position = gameObject.transform.position;
+        currentEnemy.transform.rotation = gameObject.transform.rotation;
         return;
     }
 

@@ -97,8 +97,9 @@ public class Character : MonoBehaviour
             transform.forward = Vector3.Lerp(cameraRelativeMovement, transform.forward, Time.deltaTime);
         }
         
-
-        this.transform.Translate(cameraRelativeMovement, Space.World);
+        if(!anim.GetCurrentAnimatorStateInfo(0).IsName("High Blow") && !anim.GetCurrentAnimatorStateInfo(0).IsName("Low Blow") && !anim.GetCurrentAnimatorStateInfo(0).IsName("RoundHouse Kick")){
+            this.transform.Translate(cameraRelativeMovement, Space.World);
+        }
         
         return;
     }
