@@ -8,10 +8,14 @@ public class EnemySpawn : MonoBehaviour
     public float durationTime;
     float timeRun;
     float time;
-    
+    int cantEnemies;
+
     // Start is called before the first frame update
     void Start()
     {   
+        if(gameObject.name == "FirstEnemySpawn"){
+            cantEnemies = 1;
+        }
         time = durationTime;
     }
 
@@ -21,7 +25,7 @@ public class EnemySpawn : MonoBehaviour
         
         durationTime = timer();
         spawnEnemyAfterAWhile();
-        
+        deActivate();
         
     }
 
@@ -32,8 +36,9 @@ public class EnemySpawn : MonoBehaviour
     }
 
     void spawnEnemyAfterAWhile(){
-        if(!GameObject.FindWithTag("Enemy") && durationTime <= 0){
+        if(!GameObject.FindWithTag("Enemy") && cantEnemies > 0 && durationTime <= 0){
             spawnEnemy();
+            cantEnemies--;
         }else if(GameObject.FindWithTag("Enemy")){
             durationTime = time;
         }
@@ -48,4 +53,9 @@ public class EnemySpawn : MonoBehaviour
         return;
     }
 
+    void deActivate(){
+        if(cantEnemies <= 0){
+            gameObject.GetComponent<EnemySpawn>().enabled = false;
+        }
+    }
 }
