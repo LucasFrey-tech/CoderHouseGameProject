@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
     Animator anim;
     BoxCollider fists;
     public float timer = 0;
-    float time = 2f;
+    float time = 0.5f;
+    
     // Start is called before the first frame update
     void Start()
     {   
@@ -55,15 +56,17 @@ public class Enemy : MonoBehaviour
 
         if(distance > maxDistance){
             speed = 0.5f;
+            noAttack();
+            timer = time;
         }else{
             speed = 0f;
-            timer -= Time.deltaTime;
+            if(!anim.GetBool("IsAttacking")){
+                timer -= Time.deltaTime;    
+            }
+
             if(timer <= 0f){
-                timer = time;
                 attack();
-            }/*else if(timer == 2f){
-                anim.SetBool("IsAttacking", false);
-            }*/
+            }
         }
 
         return;
@@ -76,11 +79,12 @@ public class Enemy : MonoBehaviour
 
     void attack(){
         anim.SetBool("IsAttacking", true);
-        if(anim.GetCurrentAnimatorStateInfo(0).IsName("Zombie Attack")){
-            fists.enabled = true;
-        }else{
-            fists.enabled = false;
-        }
+        timer = time;
+        return;
+    }
+
+    void noAttack(){
+        anim.SetBool("IsAttacking", false);
         return;
     }
 
