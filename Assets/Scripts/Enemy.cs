@@ -7,19 +7,21 @@ public class Enemy : MonoBehaviour
 {   
     public float health = 100f;
     public float hitDamage = 15f;
-    public GameObject objective;
+    public GameObject objective, mySpawn;
     Quaternion lookOnPlayer;
     Rigidbody rb;
     public float maxDistance;
     public float speed;
     Animator anim;
     BoxCollider fists;
-    public float timer = 0;
-    float time = 0.5f;
+    public float timer = 0f;
+    float time = 0.1f;
+    
     
     // Start is called before the first frame update
     void Start()
     {   
+        
         anim = GetComponent<Animator>();
         fists = gameObject.transform.GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(5).GetComponent<BoxCollider>();
     }
@@ -29,12 +31,8 @@ public class Enemy : MonoBehaviour
     {   
         objective = GameObject.FindWithTag("Player");
         rb = objective.GetComponent<Rigidbody>();  
-        lookAtPlayer();
-        checkDistance();
-        moveToPlayer();
-        if(health <= 0){
-            Destroy(gameObject,3f);
-        }
+
+        death();
     }
 
     void lookAtPlayer(){
@@ -43,13 +41,19 @@ public class Enemy : MonoBehaviour
         return;
     }
 
-    /*void OnCollisionStay(Collision enemy){
-        if(enemy.transform.gameObject.tag == "Player"){
-            rb.AddForce(objective.transform.forward * -10, ForceMode.Impulse);
-            objective.GetComponent<Character>().health -= hitDamage;
+    
+    void OnCollisionStay(Collision enemy){
+        if(enemy.transform.gameObject.tag == "Respawn"){
+            health = 0;
         }
+        if(enemy.transform.gameObject.tag == "Floor" || enemy.transform.gameObject.tag == "EnemySpawn"){
+            lookAtPlayer();
+            checkDistance();
+            moveToPlayer();
+        }
+
     }
-    */
+    
 
     void checkDistance(){
         float distance = Vector3.Distance(objective.transform.position,transform.position);
@@ -79,13 +83,21 @@ public class Enemy : MonoBehaviour
 
     void attack(){
         anim.SetBool("IsAttacking", true);
+        fists.enabled = true;
         timer = time;
         return;
     }
 
     void noAttack(){
         anim.SetBool("IsAttacking", false);
+        fists.enabled = false;
         return;
     }
 
+    void death(){
+        if(health <= 0){
+            Destroy(gameObject,3f);
+        }
+        return;
+    }
 }

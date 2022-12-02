@@ -8,14 +8,12 @@ public class EnemySpawn : MonoBehaviour
     public float durationTime;
     float timeRun;
     float time;
-    int cantEnemies;
-
+    public int cantEnemies;
+    
     // Start is called before the first frame update
     void Start()
     {   
-        if(gameObject.name == "FirstEnemySpawn"){
-            cantEnemies = 1;
-        }
+        gameObject.GetComponent<Rigidbody>().isKinematic = true;
         time = durationTime;
     }
 
@@ -42,20 +40,22 @@ public class EnemySpawn : MonoBehaviour
         }else if(GameObject.FindWithTag("Enemy")){
             durationTime = time;
         }
-        
         return;
     }
 
     void spawnEnemy(){
         currentEnemy = Instantiate(enemyPrefab);
+        currentEnemy.GetComponent<Enemy>().mySpawn = gameObject;
         currentEnemy.transform.position = gameObject.transform.position;
         currentEnemy.transform.rotation = gameObject.transform.rotation;
         return;
     }
 
     void deActivate(){
-        if(cantEnemies <= 0){
+        if(cantEnemies <= 0 && !GameObject.FindWithTag("Enemy") && gameObject.name == "FirstEnemySpawn"){
             gameObject.GetComponent<EnemySpawn>().enabled = false;
+            gameObject.SetActive(false);
         }
     }
+    
 }

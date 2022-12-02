@@ -9,6 +9,9 @@ public class PlayerSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
         cam = GameObject.Find("CM FreeLook1");
+        if(gameObject.name == "SpawnPlayer"){
+            spawnPlayer();
+        }
     }
 
     // Update is called once per frame

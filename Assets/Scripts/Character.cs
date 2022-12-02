@@ -10,6 +10,8 @@ public class Character : MonoBehaviour
     public float timer = 3f;
     int clicks = 0; 
     public float hitDamage = 10f;
+    public GameObject floor = null;
+    public bool onCheckPoint = false;
     
     // Start is called before the first frame update
     void Start()
@@ -51,15 +53,35 @@ public class Character : MonoBehaviour
         if(player.transform.gameObject.tag == "Floor"){
             anim.SetBool("Grounded", false);
         }
-        if(player.transform.gameObject.name == "WinSpot"){
-            anim.SetBool("Win", true);
+        if(player.transform.gameObject.name == "Floor2" && GameObject.FindWithTag("EnemySpawn")){
+            GameObject.FindWithTag("Block").SetActive(false);
+            GameObject.Find("FourthSpawn").SetActive(false);
+            GameObject.Find("FifthSpawn").SetActive(false);
+            GameObject.Find("SixthSpawn").SetActive(false);
+            GameObject.FindWithTag("Enemy").SetActive(false);
+        }else{
+            GameObject.FindWithTag("Block").SetActive(true);
+            GameObject.Find("FourthSpawn").SetActive(true);
+            GameObject.Find("FifthSpawn").SetActive(true);
+            GameObject.Find("SixthSpawn").SetActive(true);
+            GameObject.FindWithTag("Enemy").SetActive(true);
+            
         }
-
     }
 
     void OnCollisionEnter(Collision player){
         if(player.transform.gameObject.tag == "Respawn"){
             Destroy(gameObject,0.5f);
+        }
+        if(player.transform.gameObject.tag == "Floor"){
+            floor = player.gameObject;
+            if(floor.gameObject.name == "Floor"){
+                GameObject.Find("SpawnControl").GetComponent<CheckPoint>().check = true;
+            }
+        }
+    
+        if(player.transform.gameObject.name == "WinSpot"){
+            anim.SetBool("Win", true);
         }
     }
 
