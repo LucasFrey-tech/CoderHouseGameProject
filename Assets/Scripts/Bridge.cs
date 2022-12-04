@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bridge : MonoBehaviour
 {   
     float speed = 5f;
+    GameObject player;
+    Vector3 playerScale;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,5 +26,5 @@ public class Bridge : MonoBehaviour
         }
         return;
     }
-
+    
 }
