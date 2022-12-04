@@ -6,6 +6,7 @@ public class PlayerSpawn : MonoBehaviour
 {   
     public GameObject playerPrefab, floor, currentPlayer; 
     GameObject cam;
+
     // Start is called before the first frame update
     void Start(){
         cam = GameObject.Find("CM FreeLook1");
@@ -31,6 +32,7 @@ public class PlayerSpawn : MonoBehaviour
     void spawnPlayer(){
         currentPlayer = Instantiate(playerPrefab);
         currentPlayer.GetComponent<Character>().anim.SetBool("Win", false);
+        currentPlayer.GetComponent<Character>().loseLife = false;
         currentPlayer.transform.position = gameObject.transform.position;
         currentPlayer.transform.rotation = gameObject.transform.rotation;
         return;
