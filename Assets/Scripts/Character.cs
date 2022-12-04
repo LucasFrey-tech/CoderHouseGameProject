@@ -12,7 +12,8 @@ public class Character : MonoBehaviour
     public float hitDamage = 10f;
     public GameObject floor = null;
     public bool onCheckPoint = false;
-    
+    public bool spawned = true;
+    public bool loseLife = false;
     // Start is called before the first frame update
     void Start()
     {   
@@ -36,6 +37,11 @@ public class Character : MonoBehaviour
             isWalking();
             isRunning();
             jump();
+            if(gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Jump")){
+                if(GameObject.FindWithTag("EnemySpawn")){
+                    floor = GameObject.FindWithTag("EnemySpawn").GetComponent<EnemySpawn>().floor;
+                }
+            }
             isFighting();
         }
         
@@ -46,31 +52,21 @@ public class Character : MonoBehaviour
     void OnCollisionStay(Collision player) {
         if(player.transform.gameObject.tag == "Floor"){
             anim.SetBool("Grounded", true);
-        }    
+            floor = player.gameObject;
+        }
     }
 
     void OnCollisionExit(Collision player){
         if(player.transform.gameObject.tag == "Floor"){
             anim.SetBool("Grounded", false);
+            floor = null;
         }
-        if(player.transform.gameObject.name == "Floor2" && GameObject.FindWithTag("EnemySpawn")){
-            GameObject.FindWithTag("Block").SetActive(false);
-            GameObject.Find("FourthSpawn").SetActive(false);
-            GameObject.Find("FifthSpawn").SetActive(false);
-            GameObject.Find("SixthSpawn").SetActive(false);
-            GameObject.FindWithTag("Enemy").SetActive(false);
-        }else{
-            GameObject.FindWithTag("Block").SetActive(true);
-            GameObject.Find("FourthSpawn").SetActive(true);
-            GameObject.Find("FifthSpawn").SetActive(true);
-            GameObject.Find("SixthSpawn").SetActive(true);
-            GameObject.FindWithTag("Enemy").SetActive(true);
-            
-        }
+        
     }
 
     void OnCollisionEnter(Collision player){
         if(player.transform.gameObject.tag == "Respawn"){
+            GameObject.Find("Game").GetComponent<Game>().lifeCounter--;
             Destroy(gameObject,0.5f);
         }
         if(player.transform.gameObject.tag == "Floor"){
@@ -144,11 +140,13 @@ public class Character : MonoBehaviour
     }
 
     void jump(){
-        if((Input.GetKeyDown(KeyCode.Space) && anim.GetBool("Grounded")) || Input.GetKeyDown(KeyCode.Space) && anim.GetBool("Grounded")){
-            rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
-            anim.SetBool("Jump",true);
-        }else if(!anim.GetBool("Grounded")){
-            anim.SetBool("Jump",false);
+        if((GameObject.FindWithTag("Enemy") && (floor != GameObject.FindWithTag("Enemy").GetComponent<Enemy>().floor)) || (!GameObject.FindWithTag("Enemy") && !GameObject.FindWithTag("EnemySpawn"))){
+            if((Input.GetKeyDown(KeyCode.Space) && anim.GetBool("Grounded")) || Input.GetKeyDown(KeyCode.Space) && anim.GetBool("Grounded")){
+                rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+                anim.SetBool("Jump",true);
+            }else if(!anim.GetBool("Grounded")){
+                anim.SetBool("Jump",false);
+            }
         }
         return;
     }
@@ -158,7 +156,11 @@ public class Character : MonoBehaviour
             if(!anim.GetCurrentAnimatorStateInfo(0).IsName("Dying Backwards")){
                 anim.SetBool("IsDying",true);
                 if(gameObject != null){
-                    Destroy(gameObject,5f);
+                    if(!loseLife){
+                        GameObject.Find("Game").GetComponent<Game>().lifeCounter--;
+                        loseLife = true;
+                    }
+                    Destroy(gameObject,3.5f);
                 }
             }
         }
