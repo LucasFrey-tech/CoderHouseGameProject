@@ -13,12 +13,11 @@ public class TransparentWall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
-        isThereEnemies();
+        activateWall();
     }
 
-    void isThereEnemies(){
-        if(GameObject.FindWithTag("Enemy") || GameObject.FindWithTag("EnemySpawn")){
+    void activateWall(){
+        if((GameObject.FindWithTag("Enemy") && (GameObject.FindWithTag("Player") && GameObject.FindWithTag("Player").GetComponent<Character>().floor == GameObject.FindWithTag("Enemy").GetComponent<Enemy>().floor)) || GameObject.FindWithTag("EnemySpawn")){
             gameObject.GetComponent<MeshRenderer>().enabled = true;
             gameObject.GetComponent<BoxCollider>().enabled = true;
         }else{
