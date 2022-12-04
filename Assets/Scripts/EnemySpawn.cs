@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {   
-    public GameObject enemyPrefab, currentEnemy;
+    public GameObject enemyPrefab, currentEnemy, floor;
     public float durationTime;
     float timeRun;
     float time;
@@ -46,6 +46,10 @@ public class EnemySpawn : MonoBehaviour
     void spawnEnemy(){
         currentEnemy = Instantiate(enemyPrefab);
         currentEnemy.GetComponent<Enemy>().mySpawn = gameObject;
+        if(currentEnemy.GetComponent<Enemy>().mySpawn.name == "SeventhSpawn"){
+            currentEnemy.transform.localScale *= 1.5f;
+            currentEnemy.GetComponent<Enemy>().hitDamage = 30f;
+        }
         currentEnemy.transform.position = gameObject.transform.position;
         currentEnemy.transform.rotation = gameObject.transform.rotation;
         return;
