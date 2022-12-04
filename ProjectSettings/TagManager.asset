@@ -12,6 +12,7 @@ TagManager:
   - LeftPunch
   - RightPunch
   - Block
+  - Win
   layers:
   - Default
   - TransparentFX
